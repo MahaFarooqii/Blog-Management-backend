@@ -11,8 +11,8 @@ export const register = async (req: Request, res: Response) => {
     if (existing) return res.status(400).json({ message: "Email exists" });
     const hashed = await hash(password);
     const user = await User.create({ name, email, password: hashed, role });
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
-    res.json({ user: { id: user._id, name: user.name, email: user.email, role: user.role }, token });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
+    res.json({ user: { id: user._id, name: user.name, email: user.email }, token });
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -21,8 +21,8 @@ export const login = async (req: Request, res: Response) => {
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
     const ok = await compare(password, user.password);
     if (!ok) return res.status(400).json({ message: "Invalid credentials" });
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
-    res.json({ token, user: { id: user._id, name: user.name, role: user.role } });
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
+    res.json({ token, user: { id: user._id, name: user.name } });
 };
 export const getUsers = async (req: Request, res: Response) => {
     try {
