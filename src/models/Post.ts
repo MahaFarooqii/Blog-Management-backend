@@ -2,7 +2,7 @@ import { Schema, model, Document, Types } from "mongoose";
 
 export interface IPost extends Document {
     title: string;
-    content?: string;
+    content: string;
     authorId: Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
@@ -10,7 +10,7 @@ export interface IPost extends Document {
 
 const PostSchema = new Schema<IPost>({
     title: { type: String, required: true },
-    content: String,
+    content: { type: String },
     authorId: { type: Schema.Types.ObjectId, ref: "User" },
 }, { timestamps: true });
 
