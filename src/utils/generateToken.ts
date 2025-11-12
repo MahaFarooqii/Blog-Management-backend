@@ -4,7 +4,6 @@ import { IUser } from "../models/User";
 export const generateToken = (user: IUser): string => {
     const payload = {
         id: user._id,
-        role: user.role,
     };
 
     const secret: Secret = process.env.JWT_SECRET as Secret;
